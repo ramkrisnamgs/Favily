@@ -34,8 +34,9 @@ const App = () => {
   ); // useSelector is a hook that allows us to access the state from the redux store
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(checkAuth());
+  useEffect(() => { 
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    dispatch(checkAuth(token));
   }, [dispatch]);
 
   if (isLoading) {

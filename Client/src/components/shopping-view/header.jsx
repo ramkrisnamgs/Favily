@@ -20,7 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu"; // Importing Dropdown Menu components
 import { Avatar, AvatarFallback } from "../ui/avatar"; // Importing Avatar components
-import { logoutUser } from "@/store/auth-slice"; // Importing logout action from Redux slice
+import { logoutUser, resetTokenAndCredentials } from "@/store/auth-slice"; // Importing logout action from Redux slice
 import UserCartWrapper from "./cart-wrapper"; // Importing UserCartWrapper component
 import { useEffect, useState } from "react"; // Importing React hooks
 import { fetchCartItems } from "@/store/shop/cart-slice"; // Importing action to fetch cart items
@@ -90,7 +90,10 @@ function HeaderRightContent() {
    * Handles user logout by dispatching the logout action.
    */
   function handleLogout() {
-    dispatch(logoutUser()); // Dispatch logout action
+    // dispatch(logoutUser());
+    dispatch(resetTokenAndCredentials()); // Dispatch the logout action
+    sessionStorage.clear(); // Clear session storage
+    navigate("/auth/login"); // Navigate to login page
   }
 
   useEffect(() => {
