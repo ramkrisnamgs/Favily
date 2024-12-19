@@ -50,7 +50,7 @@ const loginUser = async (req, res) => {
       });
 
       if (!checkUser) {
-         return res.json({
+         return res.status(400).json({
             success: false,
             message: "User does not exist! Please register first.",
          });
@@ -58,7 +58,7 @@ const loginUser = async (req, res) => {
 
       const checkPasswordMatch = await bcrypt.compare(password, checkUser.password);
       if (!checkPasswordMatch) {
-         return res.json({
+         return res.status(400).json({
             success: false,
             message: "Password is incorrect",
          });
@@ -85,7 +85,7 @@ const loginUser = async (req, res) => {
       //    }
       // });
 
-      res.staus(200).json({
+      return res.staus(200).json({
          success:true,
          message: "User logged in successfully",
          token,
@@ -95,10 +95,11 @@ const loginUser = async (req, res) => {
             id: checkUser._id,
             userName: checkUser.userName,
          }
-      })
+      });
 
    } catch (error) {
-      res.status(500).json({
+      console.error('Login error:', error);
+      return res.status(500).json({
          success: false,
          message: "Something went wrong",
          error: error.message,
