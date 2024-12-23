@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { ThermometerSnowflakeIcon } from "lucide-react";
 
 const initialState = {
     isAuthenticated: false,
@@ -9,7 +8,7 @@ const initialState = {
     token: null
 };
 
-// 
+
 export const registerUser = createAsyncThunk("auth/register", async (formData) => {
         const response = await axios.post(
             `${import.meta.env.VITE_API_URL}/api/auth/register`,
@@ -114,11 +113,14 @@ const authSlice = createSlice({
                 state.isLoading = false;
                 state.user = action.payload.success ? action.payload.user : null;
                 state.isAuthenticated = action.payload.success;
+                // state.token = action.payload.token;
+                // sessionStorage.setItem("token", action.payload.token);
             })
             .addCase(loginUser.rejected, (state) => {
                 state.isLoading = false;
                 state.user = null;
                 state.isAuthenticated = false;
+                // state.token = null;
             })
             .addCase(checkAuth.pending, (state) => {
               state.isLoading = true;
@@ -134,7 +136,7 @@ const authSlice = createSlice({
               state.isLoading = false;
               state.user = null;
               state.isAuthenticated = false;
-              state.token = null;
+              // state.token = null;
             })
             .addCase(logoutUser.fulfilled, (state, action) => {
               state.isLoading = false;

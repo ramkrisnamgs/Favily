@@ -3,7 +3,10 @@ import img from "../../assets/account.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import UserCartItemsContent from "@/components/shopping-view/cart-items-content";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
+import { useState } from "react";
+import { use } from "react";
+import { useToast } from "@/components/ui/use-toast";
+
 
 function ShoppingCheckout() {
   const { cartItems } = useSelector((state) => state.shopCart);
@@ -14,10 +17,11 @@ function ShoppingCheckout() {
   const [isPaymentStart, setIsPaymentStart] = useState(false);
 
   const dispatch = useDispatch();
-  const toast = toast();
+  // const toast = toast();
+  const {toast} = useToast();
 
-  console.log(cartItems, "cartItems");
-  console.log(currentSelectedAddress, "currentSelectedAddress");
+  // console.log(cartItems, "cartItems");
+  // console.log(currentSelectedAddress, "currentSelectedAddress");
 
   const totalCartAmount =
     cartItems && cartItems.items && cartItems.items.length > 0

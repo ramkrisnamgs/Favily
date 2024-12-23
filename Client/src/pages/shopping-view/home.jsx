@@ -20,7 +20,13 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
 
-import adidasLogo from "../../assets/adidasLogo.jpg";
+import adidasLogo from "../../assets/adidasLogo.svg";
+import zaraLogo from "../../assets/zara.svg";
+import nikeLogo from "../../assets/nike.svg";
+import pumaLogo from "../../assets/puma.svg";
+import leviLogo from "../../assets/levi.svg";
+import hnmLogo from "../../assets/h-m.svg";
+
 import { useNavigate } from "react-router-dom";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { useToast } from "@/hooks/use-toast";
@@ -36,29 +42,87 @@ const categoriesWithIcon = [
 ];
 
 const brandsWithIcon = [
-  { id: "nike", label: "Nike", icon: UserRound },
+  {
+    id: "nike",
+    label: "Nike",
+    icon: () => (
+      <img
+        className="w-16 h-16 fill-rose-600"
+        src={nikeLogo}
+        alt="Adidas Logo"
+      />
+    ),
+  },
   {
     id: "adidas",
     label: "Adidas",
-    icon: () => <img src={adidasLogo} alt="Adidas Logo" />,
+    icon: () => (
+      <img
+        className="w-16 h-16 fill-rose-600"
+        src={adidasLogo}
+        alt="Adidas Logo"
+      />
+    ),
   },
-  { id: "puma", label: "Puma", icon: UserRound },
-  { id: "levi", label: "Levi's", icon: UserRound },
-  { id: "zara", label: "Zara", icon: UserRound },
-  { id: "h&m", label: "H&M", icon: UserRound },
+  {
+    id: "puma",
+    label: "Puma",
+    icon: () => (
+      <img
+        className="w-16 h-16 fill-rose-600"
+        src={pumaLogo}
+        alt="Adidas Logo"
+      />
+    ),
+  },
+  {
+    id: "levi",
+    label: "Levi's",
+    icon: () => (
+      <img
+        className="w-16 h-16 fill-rose-600"
+        src={leviLogo}
+        alt="Adidas Logo"
+      />
+    ),
+  },
+  {
+    id: "zara",
+    label: "Zara",
+    icon: () => (
+      <img
+        className="w-16 h-16 fill-rose-600"
+        src={zaraLogo}
+        alt="Adidas Logo"
+      />
+    ),
+  },
+  {
+    id: "h&m",
+    label: "H&M",
+    icon: () => (
+      <img
+        className="w-16 h-16 fill-rose-600"
+        src={hnmLogo}
+        alt="Adidas Logo"
+      />
+    ),
+  },
 ];
 
 function ShoppingHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const { productList, productDetails } = useSelector((state) => state.shoppingProducts);
+  const { productList, productDetails } = useSelector(
+    (state) => state.shoppingProducts
+  );
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false); // State for dialog visibility
 
-  const {user} = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const { featureImageList } = useSelector((state) => state.commonFeature);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {toast} = useToast();
+  const { toast } = useToast();
 
   // const slides = [bannerOne, bannerTwo, bannerThree];
 
@@ -78,8 +142,8 @@ function ShoppingHome() {
 
   function handleAddtoCart(getCurrentProductId) {
     console.log("getCurrentProductId", getCurrentProductId); // Log the current product ID
-    console.log("user ID", user?.id); // Log user ID    
-    
+    console.log("user ID", user?.id); // Log user ID
+
     dispatch(
       addToCart({
         userId: user?.id, // User ID from state
@@ -87,7 +151,8 @@ function ShoppingHome() {
         quantity: 1, // Default quantity
       })
     ).then((data) => {
-      if (data?.payload?.success) { // Check if the addition was successful
+      if (data?.payload?.success) {
+        // Check if the addition was successful
         dispatch(fetchCartItems(user?.id)); // Fetch updated cart items
         toast({
           title: "Product is added to cart", // Notify user of success
@@ -101,12 +166,12 @@ function ShoppingHome() {
     });
   }
 
-    // Effect to open product details dialog when product details are available
-    useEffect(() => {
-      if (productDetails !== null) {
-        setOpenDetailsDialog(true); // Open details dialog
-      }
-    }, [productDetails]);
+  // Effect to open product details dialog when product details are available
+  useEffect(() => {
+    if (productDetails !== null) {
+      setOpenDetailsDialog(true); // Open details dialog
+    }
+  }, [productDetails]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -114,7 +179,7 @@ function ShoppingHome() {
     }, 3000);
 
     return () => clearInterval(timer);
-  },[featureImageList]);
+  }, [featureImageList]);
 
   useEffect(() => {
     dispatch(
@@ -134,22 +199,23 @@ function ShoppingHome() {
   return (
     <div className="flex flex-col min-h-screen">
       <div className="relative w-full h-[600px] overflow-hidden">
-      {featureImageList && featureImageList.length > 0
+        {featureImageList && featureImageList.length > 0
           ? featureImageList.map((slide, index) => (
-              <img
-                src={slide?.image}
-                key={index}
-                className={`${
-                  index === currentSlide ? "opacity-100" : "opacity-0"
+            <img
+              src={slide?.image}
+              key={index}
+              className={`${index === currentSlide ? "opacity-100" : "opacity-0"
                 } absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`}
-              />
-            ))
+            />
+          ))
           : null}
         <Button
           variant="outline"
           onClick={() =>
             setCurrentSlide(
-              (prevSlide) => (prevSlide - 1 + featureImageList.length) % featureImageList.length
+              (prevSlide) =>
+                (prevSlide - 1 + featureImageList.length) %
+                featureImageList.length
             )
           }
           size="icon"
@@ -160,7 +226,9 @@ function ShoppingHome() {
         <Button
           variant="outline"
           onClick={() =>
-            setCurrentSlide((prevSlide) => (prevSlide + 1) % featureImageList.length)
+            setCurrentSlide(
+              (prevSlide) => (prevSlide + 1) % featureImageList.length
+            )
           }
           size="icon"
           className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/80"
@@ -222,12 +290,12 @@ function ShoppingHome() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {productList && productList.length > 0
               ? productList.map((productItem) => (
-                  <ShoppingProductTile 
+                <ShoppingProductTile
                   handleGetProductDetails={handleGetProductDetails}
                   product={productItem}
                   handleAddtoCart={handleAddtoCart}
-                  />
-                ))
+                />
+              ))
               : null}
           </div>
         </div>

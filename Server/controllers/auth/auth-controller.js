@@ -88,13 +88,14 @@ const loginUser = async (req, res) => {
       return res.status(200).json({
          success:true,
          message: "User logged in successfully",
-         token,
+         token: token,
          user: {
             email: checkUser.email,
             role: checkUser.role,
             id: checkUser._id,
             userName: checkUser.userName,
-         }
+         },
+         
       });
 
    } catch (error) {
